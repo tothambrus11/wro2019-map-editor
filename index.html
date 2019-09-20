@@ -1,0 +1,53 @@
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/p5.js"></script>
+    <script src="build/build.js"></script>
+
+    <link rel="shortcut icon" href="https://p5js.org/assets/img/favicon.ico">
+    <link rel="icon" href="https://p5js.org/assets/img/favicon.ico">
+    <title>WRO pálya szerkesztő</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+        * {
+            font-family: 'Open Sans';
+        }
+
+        html, body, canvas {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #242424;
+            color: #fff;
+        }
+
+        button {
+            background-color: #444444;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        button:focus {
+            outline: none;
+            border: none;
+        }
+
+    </style>
+    <meta charset="utf8">
+</head>
+<body>
+<button onclick="myMap.save();">Pálya mentése</button>
+<button onclick="myMap.copy();">Pálya másolása vágólapra</button>
+<br>
+<p>Használat: Utak ódosítása kattintással, mező obstacle-nek jelölése O-val, mező warehouse-nak jelölése W-vel, mező útnak jelölése R-rel.</p>
+</body>
+</html>
