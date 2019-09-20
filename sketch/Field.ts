@@ -9,5 +9,6 @@ class Field {
         public fieldType: FieldTypes,
         public openSides: boolean[],
     ) {
+
     }
 }

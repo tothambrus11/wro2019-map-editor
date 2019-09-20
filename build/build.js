@@ -1,50 +1,47 @@
-var Drawer = (function () {
-    function Drawer(u, w, h) {
+class Drawer {
+    constructor(u, w, h) {
         this.u = u;
         this.w = w;
         this.h = h;
         createCanvas(this.u * this.w, this.u * this.h);
     }
-    Drawer.prototype.rectangle = function (x, y, w, h) {
+    rectangle(x, y, w, h) {
         rect(x * this.u, y * this.u, w * this.u, h * this.u);
-    };
-    Drawer.prototype.line = function (x1, y1, x2, y2) {
+    }
+    line(x1, y1, x2, y2) {
         line(x1 * this.u, y1 * this.u, x2 * this.u, y2 * this.u);
-    };
-    Drawer.prototype.shape = function (vertexes) {
-        var _this = this;
+    }
+    shape(vertexes) {
         beginShape();
-        vertexes.forEach(function (value) {
-            vertex(value.x * _this.u, value.y * _this.u);
+        vertexes.forEach((value) => {
+            vertex(value.x * this.u, value.y * this.u);
         });
         endShape(CLOSE);
-    };
-    return Drawer;
-}());
+    }
+}
 var FieldTypes;
 (function (FieldTypes) {
     FieldTypes[FieldTypes["WAREHOUSE"] = 0] = "WAREHOUSE";
     FieldTypes[FieldTypes["ROAD"] = 1] = "ROAD";
     FieldTypes[FieldTypes["OBSTACLE"] = 2] = "OBSTACLE";
 })(FieldTypes || (FieldTypes = {}));
-var Field = (function () {
-    function Field(fieldType, openSides) {
+class Field {
+    constructor(fieldType, openSides) {
         this.fieldType = fieldType;
         this.openSides = openSides;
     }
-    return Field;
-}());
-var Map = (function () {
-    function Map(w, h) {
+}
+class WROMap {
+    constructor(w, h) {
         this.w = w;
         this.h = h;
         this.cX = 0;
         this.cY = 0;
         this.generateMap();
     }
-    Map.prototype.changeFields = function () {
-        var mX = mouseX / drawer.u;
-        var mY = mouseY / drawer.u;
+    changeFields() {
+        let mX = mouseX / drawer.u;
+        let mY = mouseY / drawer.u;
         if (mX >= 0 && mX <= this.w && mY >= 0 && mY <= this.h) {
             this.cX = int(mX);
             this.cY = int(mY);
@@ -67,10 +64,10 @@ var Map = (function () {
                 }
             }
         }
-    };
-    Map.prototype.changeFieldsOnKeyPress = function () {
-        var mX = mouseX / drawer.u;
-        var mY = mouseY / drawer.u;
+    }
+    changeFieldsOnKeyPress() {
+        let mX = mouseX / drawer.u;
+        let mY = mouseY / drawer.u;
         if (mX >= 0 && mX <= this.w && mY >= 0 && mY <= this.h) {
             this.cX = int(mX);
             this.cY = int(mY);
@@ -86,44 +83,44 @@ var Map = (function () {
                     break;
             }
         }
-    };
-    Map.prototype.draw = function () {
-        for (var x = 0; x < this.w; x++) {
-            for (var y = 0; y < this.h; y++) {
-                Map.drawField(this.map[x][y], x, y);
+    }
+    draw() {
+        for (let x = 0; x < this.w; x++) {
+            for (let y = 0; y < this.h; y++) {
+                this.drawField(this.map[x][y], x, y);
             }
         }
         stroke(255);
         strokeWeight(0.1);
-        for (var i = 0; i <= this.w; i++) {
+        for (let i = 0; i <= this.w; i++) {
             drawer.line(i, 0, i, this.h);
         }
-        for (var i = 0; i <= this.h; i++) {
+        for (let i = 0; i <= this.h; i++) {
             drawer.line(0, i, this.w, i);
         }
         stroke(255, 0, 0);
         strokeWeight(3);
         fill(0, 0);
-    };
-    Map.prototype.generateMap = function () {
+    }
+    generateMap() {
         this.map = [];
         if (window.localStorage.getItem("wromap")) {
             this.map = JSON.parse(window.localStorage.getItem("wromap"));
             return;
         }
-        for (var i = 0; i < this.w; i++) {
+        for (let i = 0; i < this.w; i++) {
             this.map.push([]);
-            for (var j = 0; j < this.h; j++) {
+            for (let j = 0; j < this.h; j++) {
                 this.map[i].push(new Field(FieldTypes.ROAD, [random(1) > 0.5, random(1) > 0.5, random(1) > 0.5, random(1) > 0.5]));
             }
         }
-    };
-    Map.drawField = function (field, x, y) {
+    }
+    drawField(field, x, y) {
         noStroke();
         switch (field.fieldType) {
             case FieldTypes.ROAD:
                 fill(50);
-                var roads = field.openSides;
+                let roads = field.openSides;
                 if (roads[0]) {
                     drawer.rectangle(x + 0.25, y, 0.5, 0.75);
                 }
@@ -153,10 +150,10 @@ var Map = (function () {
             case FieldTypes.WAREHOUSE:
                 stroke(0);
                 strokeWeight(0.5);
-                for (var i1 = 0.05; i1 <= 1; i1 += .1) {
+                for (let i1 = 0.05; i1 <= 1; i1 += .1) {
                     drawer.line(x, y + i1, x + i1, y);
                 }
-                for (var i1 = 0.05; i1 <= 1; i1 += .1) {
+                for (let i1 = 0.05; i1 <= 1; i1 += .1) {
                     drawer.line(x + i1, y + 1, x + 1, y + i1);
                 }
                 fill(30);
@@ -167,31 +164,30 @@ var Map = (function () {
             case FieldTypes.OBSTACLE:
                 stroke(20, 200, 20);
                 strokeWeight(0.5);
-                for (var i1 = 0.05; i1 <= 1; i1 += .1) {
+                for (let i1 = 0.05; i1 <= 1; i1 += .1) {
                     drawer.line(x, y + i1, x + i1, y);
                 }
-                for (var i1 = 0.05; i1 <= 1; i1 += .1) {
+                for (let i1 = 0.05; i1 <= 1; i1 += .1) {
                     drawer.line(x + i1, y + 1, x + 1, y + i1);
                 }
                 break;
         }
-    };
-    Map.prototype.save = function () {
+    }
+    save() {
         window.localStorage.setItem("wromap", JSON.stringify(this.map));
-    };
-    Map.prototype.copy = function () {
+    }
+    copy() {
         copyText(JSON.stringify(this.map));
-    };
-    return Map;
-}());
-var drawer;
-var myMap;
+    }
+}
+let drawer;
+let myMap;
 function setup() {
-    var w = 7;
-    var h = 7;
-    var u = 100;
+    let w = 7;
+    let h = 7;
+    let u = 100;
     drawer = new Drawer(u, w, h);
-    myMap = new Map(w, h);
+    myMap = new WROMap(w, h);
 }
 function mousePressed() {
     myMap.changeFields();

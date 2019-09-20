@@ -1,5 +1,5 @@
 let drawer: Drawer;
-let myMap: Map;
+let myMap: WROMap;
 
 function setup() {
     //createCanvas(windowWidth, windowHeight);
@@ -8,7 +8,7 @@ function setup() {
     let u = 100;
 
     drawer = new Drawer(u, w, h);
-    myMap = new Map(w, h);
+    myMap = new WROMap(w, h);
 }
 
 function mousePressed() {

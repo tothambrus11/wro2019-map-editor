@@ -1,4 +1,4 @@
-class Map {
+class WROMap {
     map: Field[][];
 
     constructor(public readonly w: number, public readonly h: number) {
@@ -57,7 +57,7 @@ class Map {
     draw() {
         for (let x = 0; x < this.w; x++) {
             for (let y = 0; y < this.h; y++) {
-                Map.drawField(this.map[x][y], x, y);
+                this.drawField(this.map[x][y], x, y);
             }
         }
 
@@ -112,7 +112,7 @@ class Map {
      * @param x
      * @param y
      */
-    private static drawField(field: Field, x: number, y: number) {
+    private drawField(field: Field, x: number, y: number) {
 
         noStroke();
         switch (field.fieldType) {
